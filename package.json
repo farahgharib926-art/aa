@@ -1,0 +1,9 @@
+{
+  "name": "harfi-app",
+  "version": "1.0.0",
+  "description": "Harfi - Trusted Craftsmen Platform",
+  "scripts": {
+    "start": "npx serve public"
+  },
+  "license": "MIT"
+}

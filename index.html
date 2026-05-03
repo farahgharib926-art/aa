@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>حرفي | Harfi</title>
+<meta name="theme-color" content="#080810" id="themeColorMeta"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="حرفي"/>
+<meta name="description" content="منصة الحرفيين الموثوقة في مصر"/>
+<link rel="manifest" href="manifest.json"/>
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'> <!-- Background --> <rect width='512' height='512' rx='110' fill='%23080810'/> <!-- Gradient overlay --> <defs> <linearGradient id='bg' x1='0%' y1='0%' x2='100%' y2='100%'> <stop offset='0%' style='stop-color:%231a1a2e'/> <stop offset='100%' style='stop-color:%23080810'/> </linearGradient> <linearGradient id='gold' x1='0%' y1='0%' x2='100%' y2='100%'> <stop offset='0%' style='stop-color:%23f5a623'/> <stop offset='100%' style='stop-color:%23e8920f'/> </linearGradient> </defs> <rect width='512' height='512' rx='110' fill='url(%23bg)'/> <!-- Wrench (مفتاح ربط) - top left --> <g transform='translate(110, 105) rotate(-35, 60, 60)' fill='url(%23gold)'> <path d='M85 15 C100 0 125 0 135 15 C145 30 140 50 128 58 L75 111 C68 118 57 118 50 111 C43 104 43 93 50 86 L103 33 C111 21 90 10 85 15Z'/> <circle cx='56' cy='105' r='18' fill='url(%23gold)'/> <rect x='44' y='93' width='24' height='24' rx='4' fill='%23080810' opacity='0.3'/> </g> <!-- Screwdriver (مفك) - top right --> <g transform='translate(290, 80) rotate(40, 50, 80)' fill='url(%23gold)'> <rect x='44' y='10' width='16' height='100' rx='8'/> <polygon points='44,110 60,110 56,145 48,145'/> <rect x='42' y='0' width='20' height='18' rx='4'/> </g> <!-- Pipe wrench (سباكة) - bottom left --> <g transform='translate(75, 280)' fill='url(%23gold)' opacity='0.9'> <rect x='20' y='60' width='14' height='110' rx='7'/> <path d='M10 20 Q10 0 34 0 L80 0 Q100 0 100 20 L100 40 Q100 60 80 60 L34 60 Q10 60 10 40Z'/> <path d='M15 25 Q15 10 34 10 L80 10 Q90 10 90 25 L90 35 Q90 50 80 50 L34 50 Q15 50 15 35Z' fill='%23080810' opacity='0.25'/> <rect x='60' y='20' width='30' height='8' rx='4' fill='%23080810' opacity='0.3'/> <rect x='60' y='32' width='30' height='8' rx='4' fill='%23080810' opacity='0.3'/> </g> <!-- Gear (ميكانيكي) - bottom right --> <g transform='translate(310, 295)' fill='url(%23gold)' opacity='0.9'> <path d='M75 30 L85 10 L95 15 L90 35 Q105 42 115 55 L135 48 L143 57 L128 70 Q130 85 125 98 L143 108 L140 120 L120 117 Q110 130 96 136 L98 156 L86 158 L80 139 Q65 139 53 131 L38 143 L28 136 L40 122 Q35 108 38 95 L20 87 L22 75 L42 76 Q50 63 63 56 L58 37 L68 32 Z'/> <circle cx='82' cy='85' r='25' fill='%23080810'/> <circle cx='82' cy='85' r='15' fill='url(%23gold)' opacity='0.6'/> </g> <!-- Text: Harfi حرفي --> <text x='256' y='430' text-anchor='middle' font-family='Arial, sans-serif' font-size='58' font-weight='900' fill='%23f5a623'>Harfi | حرفي</text> <!-- Divider line --> <line x1='100' y1='400' x2='412' y2='400' stroke='%23f5a623' stroke-width='2' opacity='0.4'/> </svg>"/>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.development.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.development.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080810;--bg2:#0f0f1a;--bg3:#16162a;--bg4:#1e1e35;--bg5:#28283f;
+  --text:#f0f0ff;--muted:#8080a8;--muted2:#5a5a7a;
+  --gold:#f5a623;--gold2:#e8920f;--glow:rgba(245,166,35,0.22);
+  --green:#22c55e;--red:#ef4444;--blue:#6366f1;
+  --card:rgba(255,255,255,0.03);--card-b:rgba(255,255,255,0.07);
+  --shadow:0 8px 40px rgba(0,0,0,0.6);
+  --r:16px;--rs:11px;--t:.25s cubic-bezier(.4,0,.2,1);
+}
+[data-theme="light"]{
+  --bg:#f4f4ef;--bg2:#ebebe5;--bg3:#e2e2db;--bg4:#d9d9d2;--bg5:#cecec7;
+  --text:#18182c;--muted:#6b6b85;--muted2:#9090a8;
+  --card:rgba(255,255,255,0.72);--card-b:rgba(0,0,0,0.08);
+  --shadow:0 8px 40px rgba(0,0,0,0.1);--glow:rgba(245,166,35,0.18);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s}
+[data-lang="en"]{direction:ltr;font-family:'Plus Jakarta Sans',sans-serif}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--bg5);border-radius:4px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shimmer{0%{background-position:-600px 0}100%{background-position:600px 0}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes glow{0%,100%{box-shadow:0 0 18px var(--glow)}50%{box-shadow:0 0 38px var(--glow),0 0 70px var(--glow)}}
+@keyframes scaleIn{from{opacity:0;transform:scale(.93)}to{opacity:1;transform:scale(1)}}
+.fu{animation:fadeUp .38s ease forwards;opacity:0}
+.si{animation:scaleIn .32s ease forwards;opacity:0}
+.sk{background:linear-gradient(90deg,var(--bg3) 25%,var(--bg4) 50%,var(--bg3) 75%);background-size:600px 100%;animation:shimmer 1.4s infinite;border-radius:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:10px 20px;border-radius:var(--rs);font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:all var(--t);border:none;outline:none;white-space:nowrap}
+.bg{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#080810;box-shadow:0 4px 18px var(--glow)}
+.bg:hover{transform:translateY(-2px);box-shadow:0 8px 30px var(--glow)}
+.bg:active{transform:none}.bg:disabled{opacity:.55;transform:none;cursor:not-allowed}
+.bgh{background:var(--card);color:var(--muted);border:1px solid var(--card-b)}
+.bgh:hover{background:var(--bg4);color:var(--text)}
+.bdd{background:rgba(239,68,68,.1);color:var(--red);border:1.5px solid rgba(239,68,68,.3)}
+.bdd:hover{background:rgba(239,68,68,.2)}
+.bsm{padding:7px 13px;font-size:12px;border-radius:9px}
+.blg{padding:13px 26px;font-size:16px}
+.bfw{width:100%}
+.cd{background:var(--card);border:1px solid var(--card-b);border-radius:var(--r);backdrop-filter:blur(12px);transition:all var(--t)}
+.cdh:hover{border-color:rgba(245,166,35,.3);transform:translateY(-3px);box-shadow:0 14px 44px rgba(0,0,0,.3);cursor:pointer}
+.inp{background:var(--bg4);border:1.5px solid var(--bg5);border-radius:var(--rs);color:var(--text);font-family:inherit;font-size:15px;padding:12px 15px;width:100%;transition:border-color var(--t),box-shadow var(--t);outline:none}
+.inp:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--glow)}.inp::placeholder{color:var(--muted2)}
+textarea.inp{resize:vertical;min-height:80px}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700}
+.bgd{background:rgba(245,166,35,.12);color:var(--gold);border:1px solid rgba(245,166,35,.28)}
+.bgn{background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.28)}
+.bgb{background:rgba(99,102,241,.12);color:var(--blue);border:1px solid rgba(99,102,241,.28)}
+.bgr{background:var(--bg4);color:var(--muted);border:1px solid var(--bg5)}
+.av{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;flex-shrink:0}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+.don{background:var(--green);box-shadow:0 0 7px var(--green)}.dob{background:var(--gold);box-shadow:0 0 7px var(--gold)}
+.stars{color:var(--gold);letter-spacing:-1px}
+.gl{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.35}
+.dv{height:1px;background:var(--card-b);margin:14px 0}
+.nsc{scrollbar-width:none}.nsc::-webkit-scrollbar{display:none}
+.sw{max-width:820px;margin:0 auto;padding:0 16px}
+label{font-size:13px;color:var(--muted);margin-bottom:5px;display:block;font-weight:600}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const {useState,useEffect,useRef,useCallback,useMemo,createContext,useContext}=React;
+
+/* ── DATA ── */
+const WS=[
+  {id:'w01',name:'Ahmed El-Sayed',nameAr:'أحمد السيد',prof:'Master Plumber',profAr:'سباك محترف',cat:'Plumbing',catAr:'سباكة',r:4.9,rv:128,j:340,e:8,p:150,st:'online',d:0.8,av:'أ',cl:'#1565C0'},
+  {id:'w02',name:'Mostafa Salah',nameAr:'مصطفى صلاح',prof:'Plumbing Tech',profAr:'فني سباكة',cat:'Plumbing',catAr:'سباكة',r:4.7,rv:88,j:210,e:5,p:120,st:'online',d:1.1,av:'م',cl:'#0288D1'},
+  {id:'w03',name:'Karim Hassan',nameAr:'كريم حسن',prof:'Sanitary Expert',profAr:'خبير صحي',cat:'Plumbing',catAr:'سباكة',r:4.6,rv:72,j:190,e:7,p:140,st:'busy',d:1.9,av:'ك',cl:'#37474F'},
+  {id:'w04',name:'Samir Nour',nameAr:'سمير نور',prof:'Leak Specialist',profAr:'خبير تسريبات',cat:'Plumbing',catAr:'سباكة',r:4.8,rv:103,j:280,e:10,p:160,st:'online',d:0.5,av:'س',cl:'#1B5E20'},
+  {id:'w05',name:'Mohamed Ali',nameAr:'محمد علي',prof:'Certified Electrician',profAr:'كهربائي معتمد',cat:'Electrical',catAr:'كهرباء',r:4.7,rv:95,j:210,e:6,p:200,st:'online',d:1.2,av:'م',cl:'#E65100'},
+  {id:'w06',name:'Tamer Ezz',nameAr:'تامر عز',prof:'Electrical Engineer',profAr:'مهندس كهرباء',cat:'Electrical',catAr:'كهرباء',r:4.9,rv:140,j:380,e:12,p:250,st:'online',d:0.9,av:'ت',cl:'#BF360C'},
+  {id:'w07',name:'Bassem Samir',nameAr:'باسم سمير',prof:'Solar Technician',profAr:'فني طاقة شمسية',cat:'Electrical',catAr:'كهرباء',r:4.8,rv:88,j:200,e:7,p:220,st:'online',d:1.5,av:'ب',cl:'#F57F17'},
+  {id:'w08',name:'Fady Nader',nameAr:'فادي نادر',prof:'Wiring Expert',profAr:'خبير أسلاك',cat:'Electrical',catAr:'كهرباء',r:4.5,rv:50,j:120,e:4,p:170,st:'busy',d:2.8,av:'ف',cl:'#FF6D00'},
+  {id:'w09',name:'Khaled Ibrahim',nameAr:'خالد إبراهيم',prof:'Auto Mechanic',profAr:'ميكانيكي سيارات',cat:'Mechanic',catAr:'ميكانيكي',r:4.8,rv:203,j:520,e:12,p:180,st:'busy',d:2.1,av:'خ',cl:'#00838F'},
+  {id:'w10',name:'Youssef Gamal',nameAr:'يوسف جمال',prof:'Diagnostic Specialist',profAr:'خبير تشخيص',cat:'Mechanic',catAr:'ميكانيكي',r:4.9,rv:190,j:460,e:14,p:230,st:'online',d:0.7,av:'ي',cl:'#00695C'},
+  {id:'w11',name:'Sherif Hamdy',nameAr:'شريف حمدي',prof:'Engine Specialist',profAr:'متخصص محركات',cat:'Mechanic',catAr:'ميكانيكي',r:4.7,rv:155,j:390,e:9,p:200,st:'online',d:1.7,av:'ش',cl:'#004D40'},
+  {id:'w12',name:'Yasser Hassan',nameAr:'ياسر حسن',prof:'AC Technician',profAr:'فني تكييف',cat:'AC',catAr:'تكييف',r:4.6,rv:77,j:190,e:5,p:170,st:'online',d:1.5,av:'ي',cl:'#6A1B9A'},
+  {id:'w13',name:'Hossam Bakr',nameAr:'حسام بكر',prof:'Central AC Expert',profAr:'خبير تكييف مركزي',cat:'AC',catAr:'تكييف',r:4.9,rv:160,j:400,e:13,p:260,st:'online',d:0.6,av:'ح',cl:'#4527A0'},
+  {id:'w14',name:'Magdy Shafik',nameAr:'مجدي شفيق',prof:'HVAC Engineer',profAr:'مهندس تكييف',cat:'AC',catAr:'تكييف',r:4.8,rv:120,j:310,e:10,p:220,st:'online',d:0.9,av:'م',cl:'#283593'},
+  {id:'w15',name:'Rami Fawzi',nameAr:'رامي فوزي',prof:'Painter & Decorator',profAr:'دهان وديكور',cat:'Painting',catAr:'دهانات',r:4.4,rv:44,j:98,e:4,p:120,st:'busy',d:2.8,av:'ر',cl:'#880E4F'},
+  {id:'w16',name:'Adel Girgis',nameAr:'عادل جرجس',prof:'3D Wall Artist',profAr:'فنان جداريات ثلاثية',cat:'Painting',catAr:'دهانات',r:4.9,rv:135,j:320,e:11,p:220,st:'online',d:0.8,av:'ع',cl:'#AD1457'},
+  {id:'w17',name:'George Hanna',nameAr:'جورج حنا',prof:'Texture Specialist',profAr:'متخصص ديكور حوائط',cat:'Painting',catAr:'دهانات',r:4.8,rv:105,j:260,e:9,p:180,st:'online',d:1.1,av:'ج',cl:'#C62828'},
+  {id:'w18',name:'Amr El-Shafei',nameAr:'عمرو الشافعي',prof:'Master Carpenter',profAr:'نجار محترف',cat:'Carpentry',catAr:'نجارة',r:4.5,rv:60,j:130,e:9,p:130,st:'online',d:3.0,av:'ع',cl:'#4E342E'},
+  {id:'w19',name:'Ashraf Maged',nameAr:'أشرف ماجد',prof:'Wardrobe Specialist',profAr:'متخصص دواليب',cat:'Carpentry',catAr:'نجارة',r:4.9,rv:140,j:350,e:13,p:200,st:'online',d:0.5,av:'أ',cl:'#3E2723'},
+  {id:'w20',name:'Mahmoud Selim',nameAr:'محمود سليم',prof:'Kitchen Designer',profAr:'متخصص مطابخ',cat:'Carpentry',catAr:'نجارة',r:4.8,rv:115,j:285,e:8,p:180,st:'online',d:0.9,av:'م',cl:'#5D4037'},
+  {id:'w21',name:'Wahid Nasser',nameAr:'وحيد ناصر',prof:'Waterproofing Expert',profAr:'خبير عزل',cat:'Construction',catAr:'بناء',r:4.9,rv:150,j:380,e:14,p:240,st:'online',d:0.4,av:'و',cl:'#546E7A'},
+  {id:'w22',name:'Farid Abdou',nameAr:'فريد عبده',prof:'Master Builder',profAr:'بنّاء محترف',cat:'Construction',catAr:'بناء',r:4.7,rv:98,j:250,e:15,p:200,st:'online',d:1.0,av:'ف',cl:'#37474F'},
+  {id:'w23',name:'Lotfy Ahmed',nameAr:'لطفي أحمد',prof:'Concrete Specialist',profAr:'متخصص خرسانة',cat:'Construction',catAr:'بناء',r:4.8,rv:120,j:300,e:12,p:210,st:'online',d:0.8,av:'ل',cl:'#263238'},
+];
+const CATS_AR=[{id:null,l:'الكل',i:'✦'},{id:'Plumbing',l:'سباكة',i:'🚿'},{id:'Electrical',l:'كهرباء',i:'⚡'},{id:'Mechanic',l:'ميكانيكي',i:'🔩'},{id:'AC',l:'تكييف',i:'❄️'},{id:'Painting',l:'دهانات',i:'🎨'},{id:'Carpentry',l:'نجارة',i:'🪵'},{id:'Construction',l:'بناء',i:'🏗️'}];
+const CATS_EN=[{id:null,l:'All',i:'✦'},{id:'Plumbing',l:'Plumbing',i:'🚿'},{id:'Electrical',l:'Electrical',i:'⚡'},{id:'Mechanic',l:'Mechanic',i:'🔩'},{id:'AC',l:'A/C',i:'❄️'},{id:'Painting',l:'Painting',i:'🎨'},{id:'Carpentry',l:'Carpentry',i:'🪵'},{id:'Construction',l:'Build',i:'🏗️'}];
+const DEMO={id:'u_demo',name:'Ahmed Demo',nameAr:'أحمد ديمو',email:'demo@harfi.app',pw:'demo1234',avatar:'أ',color:'#1565C0',phone:'+20 100 000 0000',bookings:0,completed:0,rating:5.0,location:'القاهرة'};
+
+/* ── EGYPT GOVERNORATES ── */
+const EG_GOV=[
+  {ar:'القاهرة',en:'Cairo'},{ar:'الجيزة',en:'Giza'},{ar:'الإسكندرية',en:'Alexandria'},
+  {ar:'القليوبية',en:'Qalyubia'},{ar:'الشرقية',en:'Sharqia'},{ar:'الغربية',en:'Gharbia'},
+  {ar:'المنوفية',en:'Monufia'},{ar:'الدقهلية',en:'Dakahlia'},{ar:'كفر الشيخ',en:'Kafr el-Sheikh'},
+  {ar:'البحيرة',en:'Beheira'},{ar:'الإسماعيلية',en:'Ismailia'},{ar:'بورسعيد',en:'Port Said'},
+  {ar:'السويس',en:'Suez'},{ar:'شمال سيناء',en:'North Sinai'},{ar:'جنوب سيناء',en:'South Sinai'},
+  {ar:'الفيوم',en:'Faiyum'},{ar:'بني سويف',en:'Beni Suef'},{ar:'المنيا',en:'Minya'},
+  {ar:'أسيوط',en:'Asyut'},{ar:'سوهاج',en:'Sohag'},{ar:'قنا',en:'Qena'},
+  {ar:'الأقصر',en:'Luxor'},{ar:'أسوان',en:'Aswan'},{ar:'البحر الأحمر',en:'Red Sea'},
+  {ar:'الوادي الجديد',en:'New Valley'},{ar:'مطروح',en:'Matrouh'},{ar:'دمياط',en:'Damietta'},
+];
+
+/* ── TRANSLATIONS ── */
+const T={
+  ar:{
+    app:'حرفي',tag:'منصة الحرفيين الموثوقة',
+    home:'الرئيسية',bks:'حجوزاتي',prof:'حسابي',
+    srch:'ابحث عن حرفي، خدمة...',
+    sRat:'⭐ التقييم',sDst:'📍 الأقرب',sPrc:'💰 السعر',
+    wrkrs:'حرفي',noW:'لا يوجد حرفيون',noWH:'جرب فئة أخرى',
+    bkNow:'احجز الآن',confirm:'تأكيد الحجز',bking:'جاري الحجز...',
+    descL:'وصف المشكلة (اختياري)',descP:'مثال: يوجد تسريب في الحنفية...',
+    payM:'طريقة الدفع',cash:'💵 كاش',card:'💳 بطاقة',wlt:'📱 محفظة',
+    svcF:'سعر الخدمة',pltF:'رسوم المنصة (10%)',tot:'الإجمالي',
+    bkOk:'تم الحجز بنجاح! 🎉',bkMsg:'سيتواصل معك الحرفي قريباً',
+    myBks:'حجوزاتي',noBks:'لا يوجد حجوزات',noBkH:'ابحث عن حرفي واحجز الآن',
+    browse:'تصفح الحرفيين',cht:'الدردشة',trk:'تتبع',
+    trkT:'تتبع الحجز',trkS:'مراحل الطلب',mapS:'خريطة التتبع قريباً',
+    bkDet:'تفاصيل الحجز',cntW:'تواصل مع الحرفي',
+    msgP:'اكتب رسالة...',
+    lgn:'تسجيل الدخول',reg:'حساب جديد',lgnB:'🚀 دخول',regB:'✨ إنشاء حساب',
+    eml:'البريد الإلكتروني',pwd:'كلمة المرور',fnm:'الاسم الكامل',phn:'رقم الهاتف',
+    demo:'🎭 تجربة الحساب التجريبي',
+    pInfo:'المعلومات الشخصية',edit:'✏️ تعديل',save:'💾 حفظ',
+    lgout:'🚪 تسجيل الخروج',saved:'✅ تم الحفظ',
+    onl:'🟢 متاح',bsy:'🟡 مشغول',
+    rat:'التقييم',rvs:'تقييم',jbs:'وظيفة',exp:'خبرة',dst:'كم',
+    ph:'ج/س',egp:'ج',yrs:'سنوات',back:'← رجوع',
+    st:{confirmed:'مؤكد',on_way:'في الطريق',arrived:'وصل',completed:'مكتمل'},
+    steps:['تم تأكيد الحجز','الحرفي في الطريق','وصل الحرفي','اكتملت الخدمة'],
+    ld:'جاري التحميل...',
+    hi:'أهلاً',fnd:'اعثر على أفضل الحرفيين',
+    sts:{w:'حرفي متاح',r:'متوسط التقييم',j:'طلب مكتمل'},
+    bkN:'رقم الحجز',wrk:'الحرفي',svc:'الخدمة',pay:'الدفع',loc:'الموقع',
+    goH:'🏠 الرئيسية',goBk:'📋 حجوزاتي',
+    dn:'✅ تم',wrgCred:'بيانات خاطئة',eml2:'البريد مسجل مسبقاً',
+    replies:['أهلاً! استلمت رسالتك 👍','سأكون عندك قريباً، شكراً لصبرك.','مفهوم، سأتولى الأمر فوراً.','في الطريق! وصولي خلال 15 دقيقة.','شكراً! سأتصل بك عند وصولي.'],
+  },
+  en:{
+    app:'Harfi',tag:'Trusted Craftsmen Platform',
+    home:'Home',bks:'Bookings',prof:'Profile',
+    srch:'Search craftsman, service...',
+    sRat:'⭐ Rating',sDst:'📍 Nearest',sPrc:'💰 Price',
+    wrkrs:'workers',noW:'No Workers Found',noWH:'Try a different category',
+    bkNow:'Book Now',confirm:'Confirm Booking',bking:'Booking...',
+    descL:'Problem description (optional)',descP:'e.g. There is a water leak...',
+    payM:'Payment Method',cash:'💵 Cash',card:'💳 Card',wlt:'📱 Wallet',
+    svcF:'Service Fee',pltF:'Platform Fee (10%)',tot:'Total',
+    bkOk:'Booking Confirmed! 🎉',bkMsg:'The craftsman will contact you soon',
+    myBks:'My Bookings',noBks:'No Bookings Yet',noBkH:'Find a craftsman and book now',
+    browse:'Browse Craftsmen',cht:'Chat',trk:'Track',
+    trkT:'Track Booking',trkS:'Order Progress',mapS:'Live tracking map coming soon',
+    bkDet:'Booking Details',cntW:'Contact Craftsman',
+    msgP:'Write a message...',
+    lgn:'Login',reg:'New Account',lgnB:'🚀 Login',regB:'✨ Create Account',
+    eml:'Email Address',pwd:'Password',fnm:'Full Name',phn:'Phone Number',
+    demo:'🎭 Try Demo Account',
+    pInfo:'Personal Info',edit:'✏️ Edit',save:'💾 Save',
+    lgout:'🚪 Logout',saved:'✅ Saved',
+    onl:'🟢 Available',bsy:'🟡 Busy',
+    rat:'Rating',rvs:'reviews',jbs:'jobs',exp:'exp',dst:'km',
+    ph:'EGP/h',egp:'EGP',yrs:'yrs',back:'← Back',
+    st:{confirmed:'Confirmed',on_way:'On the Way',arrived:'Arrived',completed:'Completed'},
+    steps:['Booking Confirmed','Craftsman on the Way','Craftsman Arrived','Service Completed'],
+    ld:'Loading...',
+    hi:'Hello',fnd:'Find the Best Craftsmen',
+    sts:{w:'craftsmen',r:'avg rating',j:'jobs done'},
+    bkN:'Booking',wrk:'Worker',svc:'Service',pay:'Payment',loc:'Location',
+    goH:'🏠 Home',goBk:'📋 My Bookings',
+    dn:'✅ Done',wrgCred:'Wrong credentials',eml2:'Email already exists',
+    replies:["Got your message! I'll be there soon 👍","On my way, thanks for your patience.","Understood, handling it right away.","ETA 15 minutes!","I'll call you when I arrive."],
+  }
+};
+
+/* ── CONTEXT ── */
+const Ctx=createContext({});
+function AppProvider({children}){
+  const [theme,setTheme]=useState(()=>localStorage.getItem('hf_theme')||'dark');
+  const [lang,setLang]=useState(()=>localStorage.getItem('hf_lang')||'ar');
+  const [user,setUser]=useState(()=>{try{return JSON.parse(localStorage.getItem('hf_user'))}catch{return null}});
+  const [bks,setBks]=useState(()=>{try{return JSON.parse(localStorage.getItem('hf_bks'))||[]}catch{return[]}});
+  const [msgs,setMsgs]=useState(()=>{try{return JSON.parse(localStorage.getItem('hf_msgs'))||{}}catch{return{}}});
+  const t=T[lang];const ar=lang==='ar';
+
+  useEffect(()=>{
+    document.documentElement.setAttribute('data-theme',theme);
+    document.documentElement.setAttribute('data-lang',lang);
+    document.documentElement.lang=lang;
+    document.documentElement.dir=ar?'rtl':'ltr';
+    document.title=ar?'حرفي | منصة الحرفيين':'Harfi | Craftsmen Platform';
+    const mc=document.getElementById('themeColorMeta');
+    if(mc)mc.setAttribute('content',theme==='dark'?'#080810':'#f4f4ef');
+  },[theme,lang,ar]);
+
+  const toggleTheme=()=>{const n=theme==='dark'?'light':'dark';setTheme(n);localStorage.setItem('hf_theme',n);};
+  const toggleLang=()=>{const n=lang==='ar'?'en':'ar';setLang(n);localStorage.setItem('hf_lang',n);};
+
+  const login=(email,pw)=>{
+    if(email===DEMO.email&&pw===DEMO.pw){const u={...DEMO};setUser(u);localStorage.setItem('hf_user',JSON.stringify(u));return true;}
+    const saved=JSON.parse(localStorage.getItem('hf_users')||'[]');
+    const u=saved.find(x=>x.email===email&&x.pw===pw);
+    if(u){setUser(u);localStorage.setItem('hf_user',JSON.stringify(u));return true;}
+    return false;
+  };
+  const register=(name,email,pw,phone,location)=>{
+    const users=JSON.parse(localStorage.getItem('hf_users')||'[]');
+    if(users.find(x=>x.email===email))return false;
+    const u={id:'u'+Date.now(),name,email,pw,phone,avatar:name[0]||'U',color:'#1565C0',bookings:0,completed:0,rating:5.0,location:location||'القاهرة'};
+    users.push(u);localStorage.setItem('hf_users',JSON.stringify(users));
+    setUser(u);localStorage.setItem('hf_user',JSON.stringify(u));return true;
+  };
+  const logout=()=>{setUser(null);localStorage.removeItem('hf_user');};
+  const updUser=(d)=>{const u={...user,...d};setUser(u);localStorage.setItem('hf_user',JSON.stringify(u));};
+
+  const addBk=(bk)=>{
+    const nb=[bk,...bks];setBks(nb);localStorage.setItem('hf_bks',JSON.stringify(nb));
+    const sys={from:'system',text:ar?`تم تأكيد حجزك #${bk.id}! سيتواصل معك ${bk.wNameAr} قريباً.`:`Booking #${bk.id} confirmed! ${bk.wName} will contact you soon.`,time:new Date().toISOString()};
+    const nm={...msgs,[bk.id]:[sys]};setMsgs(nm);localStorage.setItem('hf_msgs',JSON.stringify(nm));
+  };
+
+  const sendMsg=(bkId,text)=>{
+    const m={from:'user',text,time:new Date().toISOString()};
+    const cur=JSON.parse(localStorage.getItem('hf_msgs')||'{}');
+    cur[bkId]=[...(cur[bkId]||[]),m];
+    setMsgs({...cur});localStorage.setItem('hf_msgs',JSON.stringify(cur));
+    setTimeout(()=>{
+      const reps=t.replies;
+      const rm={from:'worker',text:reps[Math.floor(Math.random()*reps.length)],time:new Date().toISOString()};
+      const cur2=JSON.parse(localStorage.getItem('hf_msgs')||'{}');
+      cur2[bkId]=[...(cur2[bkId]||[]),rm];
+      setMsgs({...cur2});localStorage.setItem('hf_msgs',JSON.stringify(cur2));
+    },2000+Math.random()*1000);
+  };
+
+  return <Ctx.Provider value={{theme,lang,t,ar,user,bks,msgs,toggleTheme,toggleLang,login,register,logout,updUser,addBk,sendMsg}}>
+    {children}
+  </Ctx.Provider>;
+}
+const useApp=()=>useContext(Ctx);
+const nav=p=>{window.location.hash='#'+p;};
+const stars=r=>'★'.repeat(Math.floor(r))+'☆'.repeat(5-Math.floor(r));
+
+/* ── ROUTE ── */
+function useRoute(){
+  const [r,setR]=useState(()=>window.location.hash.slice(1)||'/');
+  useEffect(()=>{const h=()=>setR(window.location.hash.slice(1)||'/');window.addEventListener('hashchange',h);return()=>window.removeEventListener('hashchange',h);},[]);
+  return r;
+}
+
+/* ── SPINNER ── */
+const Spin=()=><span style={{display:'inline-block',width:15,height:15,border:'2.5px solid #080810',borderTopColor:'transparent',borderRadius:'50%',animation:'spin .7s linear infinite'}}/>;
+
+/* ── NAVBAR ── */
+function Navbar({route}){
+  const {t,lang,theme,user,ar,toggleTheme,toggleLang,logout}=useApp();
+  const [menu,setMenu]=useState(false);
+  if(route.startsWith('/chat/'))return null;
+  const items=[{p:'/',l:t.home,i:'🏠'},{p:'/bookings',l:t.bks,i:'📋'},{p:'/profile',l:t.prof,i:'👤'}];
+  return(<>
+    <nav style={{position:'fixed',top:0,left:0,right:0,zIndex:200,height:60,display:'flex',alignItems:'center',padding:'0 16px',gap:10,background:'rgba(8,8,16,0.88)',backdropFilter:'blur(22px)',borderBottom:'1px solid rgba(245,166,35,.12)'}}>
+      <div onClick={()=>nav('/')} style={{display:'flex',alignItems:'center',gap:8,cursor:'pointer',flexShrink:0}}>
+        <div style={{width:33,height:33,background:'linear-gradient(135deg,#f5a623,#e8920f)',borderRadius:9,display:'flex',alignItems:'center',justifyContent:'center',fontSize:17,boxShadow:'0 4px 14px rgba(245,166,35,.45)',animation:'glow 3s ease-in-out infinite'}}>🔧</div>
+        <div style={{display:'flex',flexDirection:'column',lineHeight:1.1}}>
+          <span style={{fontSize:15,fontWeight:900,color:'var(--gold)'}}>Harfi</span>
+          <span style={{fontSize:10,fontWeight:700,color:'var(--muted)'}}>حرفي</span>
+        </div>
+      </div>
+      <div style={{display:'flex',gap:2,flex:1,justifyContent:'center'}}>
+        {items.map(n=>(
+          <div key={n.p} onClick={()=>nav(n.p)} style={{padding:'6px 12px',borderRadius:9,cursor:'pointer',fontSize:13,fontWeight:700,color:route===n.p?'var(--gold)':'var(--muted)',background:route===n.p?'rgba(245,166,35,.1)':'transparent',transition:'all var(--t)',display:'flex',alignItems:'center',gap:5}}>
+            <span>{n.i}</span><span>{n.l}</span>
+          </div>
+        ))}
+      </div>
+      <div style={{display:'flex',gap:7,alignItems:'center',flexShrink:0}}>
+        <button onClick={toggleLang} style={{background:'var(--bg4)',border:'1px solid var(--bg5)',color:'var(--muted)',borderRadius:8,padding:'5px 11px',cursor:'pointer',fontFamily:'inherit',fontSize:12,fontWeight:700,transition:'all var(--t)'}}>
+          {lang==='ar'?'EN':'عر'}
+        </button>
+        <button onClick={toggleTheme} style={{background:'var(--bg4)',border:'1px solid var(--bg5)',color:'var(--muted)',borderRadius:8,padding:'5px 9px',cursor:'pointer',fontSize:14,transition:'all var(--t)'}}>
+          {theme==='dark'?'☀️':'🌙'}
+        </button>
+        {user?(
+          <div style={{position:'relative'}}>
+            <div onClick={()=>setMenu(!menu)} style={{width:35,height:35,borderRadius:'50%',background:user.color,display:'flex',alignItems:'center',justifyContent:'center',fontWeight:800,fontSize:14,cursor:'pointer',border:'2px solid rgba(245,166,35,.4)',color:'#fff'}}>{user.avatar}</div>
+            {menu&&(<>
+              <div onClick={()=>setMenu(false)} style={{position:'fixed',inset:0,zIndex:300}}/>
+              <div style={{position:'absolute',top:43,[ar?'left':'right']:0,background:'var(--bg3)',border:'1px solid var(--bg5)',borderRadius:13,padding:8,minWidth:165,boxShadow:'var(--shadow)',zIndex:400}}>
+                <div style={{padding:'8px 13px 7px',borderBottom:'1px solid var(--bg5)',marginBottom:5}}>
+                  <div style={{fontWeight:700,fontSize:13}}>{user.name}</div>
+                  <div style={{fontSize:11,color:'var(--muted)'}}>{user.email}</div>
+                </div>
+                {[{i:'👤',l:t.prof,a:()=>{nav('/profile');setMenu(false);}},{i:'📋',l:t.myBks,a:()=>{nav('/bookings');setMenu(false);}}].map(x=>(
+                  <div key={x.l} onClick={x.a} style={{padding:'9px 13px',borderRadius:8,cursor:'pointer',fontSize:13,fontWeight:600,color:'var(--text)',transition:'background var(--t)'}}>
+                    {x.i} {x.l}
+                  </div>
+                ))}
+                <div style={{height:1,background:'var(--bg5)',margin:'5px 0'}}/>
+                <div onClick={()=>{logout();setMenu(false);nav('/auth');}} style={{padding:'9px 13px',borderRadius:8,cursor:'pointer',fontSize:13,fontWeight:600,color:'var(--red)'}}>
+                  {t.lgout}
+                </div>
+              </div>
+            </>)}
+          </div>
+        ):(
+          <button className="btn bg bsm" onClick={()=>nav('/auth')}>{t.lgn}</button>
+        )}
+      </div>
+    </nav>
+    {/* mobile bottom */}
+    <div style={{position:'fixed',bottom:0,left:0,right:0,zIndex:200,height:56,display:'flex',background:'var(--bg2)',backdropFilter:'blur(20px)',borderTop:'1px solid rgba(245,166,35,.12)'}}>
+      {items.map(n=>(
+        <div key={n.p} onClick={()=>nav(n.p)} style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:2,cursor:'pointer',color:route===n.p?'var(--gold)':'var(--muted)',transition:'color var(--t)'}}>
+          <span style={{fontSize:19}}>{n.i}</span>
+          <span style={{fontSize:10,fontWeight:700}}>{n.l}</span>
+        </div>
+      ))}
+    </div>
+  </>);
+}
+
+/* ── HOME ── */
+function Home(){
+  const {t,ar,user}=useApp();
+  const [cat,setCat]=useState(null);
+  const [sort,setSort]=useState('rating');
+  const [q,setQ]=useState('');
+  const CATS=ar?CATS_AR:CATS_EN;
+
+  const list=useMemo(()=>{
+    let w=[...WS];
+    if(cat)w=w.filter(x=>x.cat===cat);
+    const qTrim=q.trim();
+    if(qTrim){
+      const lq=qTrim.toLowerCase();
+      w=w.filter(x=>
+        x.nameAr.includes(qTrim)||
+        x.name.toLowerCase().includes(lq)||
+        x.profAr.includes(qTrim)||
+        x.prof.toLowerCase().includes(lq)||
+        x.catAr.includes(qTrim)||
+        x.cat.toLowerCase().includes(lq)||
+        String(x.p).includes(qTrim)
+      );
+    }
+    if(sort==='rating')w.sort((a,b)=>b.r-a.r);
+    else if(sort==='distance')w.sort((a,b)=>a.d-b.d);
+    else if(sort==='price')w.sort((a,b)=>a.p-b.p);
+    return w;
+  },[cat,sort,q]);
+
+  return(
+    <div style={{paddingTop:60,paddingBottom:64}}>
+      <div style={{position:'relative',overflow:'hidden',background:'var(--bg2)',borderBottom:'1px solid rgba(245,166,35,.12)',padding:'38px 20px 32px'}}>
+        <div style={{position:'absolute',top:-100,right:-100,width:380,height:380,background:'radial-gradient(circle,rgba(245,166,35,.06) 0%,transparent 70%)',borderRadius:'50%',pointerEvents:'none'}}/>
+        <div style={{position:'absolute',bottom:-60,left:-60,width:280,height:280,background:'radial-gradient(circle,rgba(99,102,241,.05) 0%,transparent 70%)',borderRadius:'50%',pointerEvents:'none'}}/>
+        <div className="sw" style={{position:'relative'}}>
+          <div style={{marginBottom:10}}><span className="badge bgd">🔨 {t.tag}</span></div>
+          <h1 style={{fontSize:'clamp(22px,4.5vw,42px)',fontWeight:900,lineHeight:1.2,marginBottom:9,background:'linear-gradient(135deg,var(--text),var(--gold))',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>
+            {user?`${t.hi}، ${(ar?user.nameAr||user.name:user.name).split(' ')[0]} 👋`:t.fnd}
+          </h1>
+          <p style={{color:'var(--muted)',fontSize:14,marginBottom:24}}>{ar?'سباكة • كهرباء • ميكانيكي • تكييف • دهانات وأكثر':'Plumbing • Electrical • Mechanic • AC • Painting & more'}</p>
+          <div style={{display:'flex',gap:24,flexWrap:'wrap'}}>
+            {[{v:'23+',l:t.sts.w},{v:'4.8★',l:t.sts.r},{v:'1,200+',l:t.sts.j}].map(s=>(
+              <div key={s.l} style={{textAlign:'center'}}>
+                <div style={{fontSize:21,fontWeight:900,color:'var(--gold)'}}>{s.v}</div>
+                <div style={{fontSize:12,color:'var(--muted)'}}>{s.l}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="sw" style={{paddingTop:22}}>
+        <div style={{position:'relative',marginBottom:14}}>
+          <span style={{position:'absolute',[ar?'right':'left']:13,top:'50%',transform:'translateY(-50%)',fontSize:16,pointerEvents:'none',zIndex:1}}>🔍</span>
+          <input className="inp" placeholder={t.srch} value={q} onChange={e=>setQ(e.target.value)} style={{[ar?'paddingRight':'paddingLeft']:42,height:48,fontSize:15}}/>
+          {q&&<button onClick={()=>setQ('')} style={{position:'absolute',[ar?'left':'right']:12,top:'50%',transform:'translateY(-50%)',background:'none',border:'none',color:'var(--muted)',cursor:'pointer',fontSize:18}}>✕</button>}
+        </div>
+
+        <div className="nsc" style={{display:'flex',gap:7,overflowX:'auto',paddingBottom:4,marginBottom:14}}>
+          {CATS.map(c=>{const active=cat===c.id;return(
+            <button key={c.l} onClick={()=>setCat(c.id)} style={{flexShrink:0,padding:'7px 14px',borderRadius:9,border:'none',cursor:'pointer',fontFamily:'inherit',fontSize:13,fontWeight:700,display:'flex',alignItems:'center',gap:5,background:active?'linear-gradient(135deg,var(--gold),var(--gold2))':'var(--bg3)',color:active?'#080810':'var(--muted)',border:active?'none':'1px solid var(--bg5)',boxShadow:active?'0 4px 14px var(--glow)':'none',transition:'all var(--t)'}}>
+              <span>{c.i}</span><span>{c.l}</span>
+            </button>
+          );})}
+        </div>
+
+        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:12}}>
+          <div style={{display:'flex',alignItems:'center',gap:8}}>
+            <span style={{color:'var(--muted)',fontSize:13,fontWeight:600}}>{list.length} {t.wrkrs}</span>
+            {(cat||q.trim())&&(
+              <button onClick={()=>{setCat(null);setQ('');}} style={{background:'rgba(245,166,35,.12)',border:'1px solid rgba(245,166,35,.3)',color:'var(--gold)',borderRadius:7,padding:'2px 9px',cursor:'pointer',fontFamily:'inherit',fontSize:11,fontWeight:700}}>
+                ✕ {ar?'مسح الفلتر':'Clear'}
+              </button>
+            )}
+          </div>
+          <div style={{display:'flex',gap:5}}>
+            {[[t.sRat,'rating'],[t.sDst,'distance'],[t.sPrc,'price']].map(([l,id])=>(
+              <button key={id} onClick={()=>setSort(id)} style={{padding:'5px 11px',borderRadius:8,cursor:'pointer',fontFamily:'inherit',fontSize:12,fontWeight:700,background:sort===id?'rgba(245,166,35,.15)':'transparent',color:sort===id?'var(--gold)':'var(--muted)',border:sort===id?'1px solid rgba(245,166,35,.4)':'1px solid var(--bg5)',transition:'all var(--t)'}}>{l}</button>
+            ))}
+          </div>
+        </div>
+
+
+        {list.length===0?(
+          <div style={{textAlign:'center',padding:'56px 20px'}}>
+            <div style={{fontSize:48,marginBottom:12}}>🔍</div>
+            <div style={{fontSize:17,fontWeight:700,marginBottom:8}}>{t.noW}</div>
+            <div style={{color:'var(--muted)',marginBottom:16}}>{q.trim()?ar?`لا نتائج لـ "${q}"`:`No results for "${q}"`:t.noWH}</div>
+            {(cat||q.trim())&&<button className="btn bg bsm" onClick={()=>{setCat(null);setQ('');}}>
+              {ar?'عرض الكل':'Show All'}
+            </button>}
+          </div>
+        ):(
+          <div style={{display:'flex',flexDirection:'column',gap:11}}>
+            {list.map((w,i)=>(
+              <div key={w.id} className="cd cdh fu" style={{padding:17,animationDelay:`${i*40}ms`}} onClick={()=>nav(`/worker/${w.id}`)}>
+                <div style={{display:'flex',gap:13,alignItems:'flex-start'}}>
+                  <div style={{position:'relative',flexShrink:0}}>
+                    <div className="av" style={{width:56,height:56,fontSize:21,background:w.cl,boxShadow:`0 4px 14px ${w.cl}55`}}>{w.av}</div>
+                    <span className={`dot ${w.st==='online'?'don':'dob'}`} style={{position:'absolute',bottom:2,right:2,border:'2.5px solid var(--bg3)'}}/>
+                  </div>
+                  <div style={{flex:1,minWidth:0}}>
+                    <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',gap:7}}>
+                      <div>
+                        <div style={{fontWeight:800,fontSize:15}}>{ar?w.nameAr:w.name}</div>
+                        <div style={{color:'var(--muted)',fontSize:13,marginTop:1}}>{ar?w.profAr:w.prof}</div>
+                      </div>
+                      <div style={{textAlign:ar?'left':'right',flexShrink:0}}>
+                        <span style={{fontWeight:900,fontSize:17,color:'var(--gold)'}}>{w.p}</span>
+                        <span style={{fontSize:11,color:'var(--muted)'}}> {t.ph}</span>
+                      </div>
+                    </div>
+                    <div style={{display:'flex',alignItems:'center',gap:7,marginTop:7}}>
+                      <span className="stars" style={{fontSize:12}}>{stars(w.r)}</span>
+                      <span style={{fontSize:13,fontWeight:700}}>{w.r}</span>
+                      <span style={{fontSize:12,color:'var(--muted)'}}>({w.rv})</span>
+                      <span style={{fontSize:12,color:'var(--muted)',margin:'0 auto'}}>📍 {w.d} {t.dst}</span>
+                    </div>
+                    <div style={{display:'flex',gap:5,marginTop:9,flexWrap:'wrap'}}>
+                      <span className="badge bgd">{ar?w.catAr:w.cat}</span>
+                      <span className="badge bgr">⚡ {w.e} {t.yrs}</span>
+                      <span className="badge bgr">✅ {w.j} {t.jbs}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ── AUTH ── */
+function Auth(){
+  const {t,ar,login,register}=useApp();
+  const [mode,setMode]=useState('login');
+  const [loading,setLoading]=useState(false);
+  const [err,setErr]=useState('');
+  const [f,setF]=useState({name:'',email:'',pw:'',phone:'',location:'القاهرة'});
+  const set=(k,v)=>setF(p=>({...p,[k]:v}));
+
+  const submit=async()=>{
+    setErr('');setLoading(true);
+    await new Promise(r=>setTimeout(r,700));
+    if(mode==='login'){
+      if(!login(f.email,f.pw))setErr(t.wrgCred);else nav('/');
+    }else{
+      if(!f.name||!f.email||!f.pw)setErr(ar?'أكمل البيانات':'Fill all fields');
+      else if(!register(f.name,f.email,f.pw,f.phone,f.location))setErr(t.eml2);
+      else nav('/');
+    }
+    setLoading(false);
+  };
+
+  return(
+    <div className="si" style={{minHeight:'100vh',display:'flex',alignItems:'center',justifyContent:'center',padding:'80px 16px 40px',background:'radial-gradient(ellipse at 50% 0%,rgba(245,166,35,.06) 0%,transparent 55%)'}}>
+      <div style={{width:'100%',maxWidth:420}}>
+        <div style={{textAlign:'center',marginBottom:26}}>
+          <div style={{width:68,height:68,background:'linear-gradient(135deg,#f5a623,#e8920f)',borderRadius:20,display:'flex',alignItems:'center',justifyContent:'center',fontSize:32,margin:'0 auto 13px',animation:'glow 2.5s ease-in-out infinite',boxShadow:'0 8px 30px var(--glow)'}}>🔧</div>
+          <h1 style={{fontSize:26,fontWeight:900,color:'var(--gold)'}}>Harfi | حرفي</h1>
+          <p style={{color:'var(--muted)',fontSize:13,marginTop:4}}>{t.tag}</p>
+        </div>
+        <div className="cd" style={{padding:24}}>
+          <div style={{display:'flex',background:'var(--bg4)',borderRadius:10,padding:4,marginBottom:20}}>
+            {[['login',t.lgn],['register',t.reg]].map(([id,l])=>(
+              <button key={id} onClick={()=>{setMode(id);setErr('');}} style={{flex:1,padding:'9px',borderRadius:8,border:'none',cursor:'pointer',fontFamily:'inherit',fontSize:13,fontWeight:700,background:mode===id?'linear-gradient(135deg,var(--gold),var(--gold2))':'transparent',color:mode===id?'#080810':'var(--muted)',transition:'all var(--t)',boxShadow:mode===id?'0 4px 12px var(--glow)':'none'}}>{l}</button>
+            ))}
+          </div>
+          <div style={{display:'flex',flexDirection:'column',gap:13}}>
+            {mode==='register'&&<div><label>{t.fnm}</label><input className="inp" placeholder={ar?'محمد أحمد':'John Smith'} value={f.name} onChange={e=>set('name',e.target.value)}/></div>}
+            <div><label>{t.eml}</label><input className="inp" type="email" placeholder="name@example.com" value={f.email} onChange={e=>set('email',e.target.value)}/></div>
+            <div><label>{t.pwd}</label><input className="inp" type="password" placeholder="••••••••" value={f.pw} onChange={e=>set('pw',e.target.value)}/></div>
+            {mode==='register'&&<div><label>{t.phn}</label><input className="inp" placeholder="+20 100 000 0000" value={f.phone} onChange={e=>set('phone',e.target.value)}/></div>}
+            {mode==='register'&&<div><label>📍 {ar?'المحافظة':'Governorate'}</label>
+              <select className="inp" value={f.location} onChange={e=>set('location',e.target.value)} style={{cursor:'pointer'}}>
+                {EG_GOV.map(g=><option key={g.ar} value={ar?g.ar:g.en}>{ar?g.ar:g.en}</option>)}
+              </select>
+            </div>}
+          </div>
+          {err&&<div style={{marginTop:13,padding:'9px 13px',borderRadius:9,background:'rgba(239,68,68,.1)',border:'1px solid rgba(239,68,68,.3)',color:'var(--red)',fontSize:13,fontWeight:600}}>⚠️ {err}</div>}
+          <button className="btn bg bfw blg" style={{marginTop:16}} onClick={submit} disabled={loading}>
+            {loading?<><Spin/> {ar?'جاري...':'Loading...'}</>:mode==='login'?t.lgnB:t.regB}
+          </button>
+          {mode==='login'&&(
+            <button onClick={()=>setF({name:'',email:DEMO.email,pw:DEMO.pw,phone:''})} style={{width:'100%',marginTop:9,padding:11,borderRadius:10,background:'rgba(245,166,35,.07)',border:'1px dashed rgba(245,166,35,.35)',color:'var(--gold)',fontSize:13,fontWeight:700,cursor:'pointer',fontFamily:'inherit',transition:'all var(--t)'}}>
+              {t.demo}
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── WORKER DETAIL ── */
+function WorkerDetail({id}){
+  const {t,ar,user,addBk}=useApp();
+  const w=WS.find(x=>x.id===id);
+  const [desc,setDesc]=useState('');
+  const [pay,setPay]=useState('Cash');
+  const [bkLoc,setBkLoc]=useState(user?.location||'القاهرة');
+  const [success,setSuccess]=useState(null);
+  const [loading,setLoading]=useState(false);
+  useEffect(()=>{window.scrollTo(0,0);},[]);
+  if(!w){nav('/');return null;}
+  const fee=Math.round(w.p*.1);const tot=w.p+fee;
+
+  const book=async()=>{
+    if(!user){nav('/auth');return;}
+    setLoading(true);await new Promise(r=>setTimeout(r,900));
+    const bk={id:'BK'+Math.random().toString(36).substr(2,5).toUpperCase(),wId:w.id,wName:w.name,wNameAr:w.nameAr,prof:w.prof,profAr:w.profAr,av:w.av,cl:w.cl,status:'confirmed',amount:tot,pay,desc,location:bkLoc,createdAt:new Date().toISOString()};
+    addBk(bk);setSuccess(bk);setLoading(false);
+  };
+
+  if(success)return(
+    <div className="si" style={{minHeight:'100vh',display:'flex',alignItems:'center',justifyContent:'center',padding:'80px 16px',textAlign:'center'}}>
+      <div>
+        <div style={{fontSize:70,marginBottom:14,animation:'pulse 2s ease infinite'}}>🎉</div>
+        <h2 style={{fontSize:24,fontWeight:900,color:'var(--gold)',marginBottom:8}}>{t.bkOk}</h2>
+        <p style={{color:'var(--muted)',marginBottom:5}}>{t.bkN} <strong style={{color:'var(--text)'}}>#{success.id}</strong></p>
+        <p style={{color:'var(--muted)',marginBottom:26}}>{t.bkMsg}</p>
+        <div style={{display:'flex',gap:9,justifyContent:'center',flexWrap:'wrap'}}>
+          <button className="btn bg" onClick={()=>nav('/bookings')}>{t.goBk}</button>
+          <button className="btn bgh" onClick={()=>nav('/')}>{t.goH}</button>
+        </div>
+      </div>
+    </div>
+  );
+
+  return(
+    <div className="fu" style={{paddingTop:68,paddingBottom:78}}>
+      <div style={{background:'var(--bg2)',borderBottom:'1px solid rgba(245,166,35,.12)',padding:'26px 16px'}}>
+        <div className="sw">
+          <button onClick={()=>window.history.back()} style={{background:'none',border:'none',color:'var(--muted)',cursor:'pointer',fontSize:13,marginBottom:16,fontFamily:'inherit',display:'flex',alignItems:'center',gap:5,fontWeight:600}}>{t.back}</button>
+          <div style={{display:'flex',gap:16,alignItems:'flex-start',flexWrap:'wrap'}}>
+            <div style={{position:'relative',flexShrink:0}}>
+              <div className="av" style={{width:75,height:75,fontSize:28,background:w.cl,boxShadow:`0 8px 24px ${w.cl}55`}}>{w.av}</div>
+              <span className={`dot ${w.st==='online'?'don':'dob'}`} style={{position:'absolute',bottom:4,right:4,width:13,height:13,border:'3px solid var(--bg2)'}}/>
+            </div>
+            <div style={{flex:1,minWidth:180}}>
+              <h1 style={{fontSize:22,fontWeight:900,marginBottom:3}}>{ar?w.nameAr:w.name}</h1>
+              <p style={{color:'var(--muted)',fontSize:13,marginBottom:11}}>{ar?w.profAr:w.prof}</p>
+              <div style={{display:'flex',gap:7,flexWrap:'wrap'}}>
+                <span className="badge bgd">{ar?w.catAr:w.cat}</span>
+                <span className={`badge ${w.st==='online'?'bgn':'bgd'}`}>{w.st==='online'?t.onl:t.bsy}</span>
+              </div>
+            </div>
+            <div style={{textAlign:'center',flexShrink:0}}>
+              <div style={{fontSize:28,fontWeight:900,color:'var(--gold)'}}>{w.p}</div>
+              <div style={{fontSize:11,color:'var(--muted)'}}>{t.ph}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="sw" style={{paddingTop:22}}>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:9,marginBottom:20}}>
+          {[{v:w.r,l:t.rat,i:'⭐'},{v:w.rv,l:t.rvs,i:'💬'},{v:w.j,l:t.jbs,i:'✅'},{v:w.e,l:t.exp,i:'🏆'}].map(s=>(
+            <div key={s.l} className="cd" style={{padding:'13px 7px',textAlign:'center'}}>
+              <div style={{fontSize:15,marginBottom:3}}>{s.i}</div>
+              <div style={{fontSize:16,fontWeight:900,color:'var(--gold)'}}>{s.v}</div>
+              <div style={{fontSize:11,color:'var(--muted)'}}>{s.l}</div>
+            </div>
+          ))}
+        </div>
+        <div style={{display:'flex',alignItems:'center',gap:7,marginBottom:20}}>
+          <span className="stars" style={{fontSize:13}}>{stars(w.r)}</span>
+          <span style={{fontWeight:700}}>{w.r}</span>
+          <span style={{color:'var(--muted)',fontSize:12}}>({w.rv})</span>
+          <span style={{color:'var(--muted)',fontSize:12,margin:'0 auto'}}>📍 {w.d} {t.dst}</span>
+        </div>
+        <div className="cd" style={{padding:20}}>
+          <h2 style={{fontSize:16,fontWeight:800,marginBottom:3}}>📝 {t.bkNow}</h2>
+          <p style={{color:'var(--muted)',fontSize:12,marginBottom:16}}>{t.bkMsg}</p>
+          <div style={{display:'flex',flexDirection:'column',gap:13}}>
+            <div><label>{t.descL}</label><textarea className="inp" placeholder={t.descP} value={desc} onChange={e=>setDesc(e.target.value)}/></div>
+            <div><label>📍 {ar?'المحافظة':'Governorate'}</label>
+              <select className="inp" value={bkLoc} onChange={e=>setBkLoc(e.target.value)} style={{cursor:'pointer'}}>
+                {EG_GOV.map(g=><option key={g.ar} value={ar?g.ar:g.en}>{ar?g.ar:g.en}</option>)}
+              </select>
+            </div>
+            <div>
+              <label>{t.payM}</label>
+              <div style={{display:'flex',gap:7}}>
+                {[['Cash',t.cash],['Card',t.card],['Wallet',t.wlt]].map(([id2,l])=>(
+                  <button key={id2} onClick={()=>setPay(id2)} style={{flex:1,padding:9,borderRadius:9,cursor:'pointer',fontFamily:'inherit',fontSize:12,fontWeight:700,background:pay===id2?'rgba(245,166,35,.15)':'var(--bg4)',color:pay===id2?'var(--gold)':'var(--muted)',border:pay===id2?'1.5px solid rgba(245,166,35,.5)':'1px solid var(--bg5)',transition:'all var(--t)'}}>{l}</button>
+                ))}
+              </div>
+            </div>
+            <div style={{background:'var(--bg4)',borderRadius:11,padding:14}}>
+              {[[t.svcF,`${w.p} ${t.egp}`],[t.pltF,`${fee} ${t.egp}`]].map(([l,v])=>(
+                <div key={l} style={{display:'flex',justifyContent:'space-between',marginBottom:9}}>
+                  <span style={{color:'var(--muted)',fontSize:13}}>{l}</span><span style={{fontWeight:700}}>{v}</span>
+                </div>
+              ))}
+              <div className="gl" style={{margin:'9px 0'}}/>
+              <div style={{display:'flex',justifyContent:'space-between'}}>
+                <span style={{fontWeight:800}}>{t.tot}</span>
+                <span style={{fontWeight:900,fontSize:19,color:'var(--gold)'}}>{tot} {t.egp}</span>
+              </div>
+            </div>
+          </div>
+          <button className="btn bg bfw blg" style={{marginTop:16}} onClick={book} disabled={loading}>
+            {loading?<><Spin/> {ar?'جاري...':'Loading...'}</>:`🚀 ${t.confirm}`}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── BOOKINGS ── */
+const STC={confirmed:{c:'var(--green)',b:'rgba(34,197,94,.1)',i:'✅'},on_way:{c:'var(--gold)',b:'rgba(245,166,35,.1)',i:'🚗'},arrived:{c:'var(--blue)',b:'rgba(99,102,241,.1)',i:'📍'},completed:{c:'var(--muted)',b:'var(--bg4)',i:'🏆'}};
+
+function Bookings(){
+  const {t,ar,user,bks}=useApp();
+  if(!user){nav('/auth');return null;}
+  return(
+    <div className="fu" style={{paddingTop:68,paddingBottom:64}}>
+      <div style={{background:'var(--bg2)',borderBottom:'1px solid rgba(245,166,35,.12)',padding:'26px 16px'}}>
+        <div className="sw">
+          <h1 style={{fontSize:22,fontWeight:900}}>📋 {t.myBks}</h1>
+          <p style={{color:'var(--muted)',fontSize:13,marginTop:3}}>{bks.length} {ar?'حجز':'booking(s)'}</p>
+        </div>
+      </div>
+      <div className="sw" style={{paddingTop:22}}>
+        {bks.length===0?(
+          <div style={{textAlign:'center',padding:'56px 20px'}}>
+            <div style={{fontSize:52,marginBottom:13}}>📭</div>
+            <h2 style={{fontSize:19,fontWeight:800,marginBottom:7}}>{t.noBks}</h2>
+            <p style={{color:'var(--muted)',marginBottom:20}}>{t.noBkH}</p>
+            <button className="btn bg" onClick={()=>nav('/')}>{t.browse}</button>
+          </div>
+        ):(
+          <div style={{display:'flex',flexDirection:'column',gap:11}}>
+            {bks.map((b,i)=>{const s=STC[b.status]||STC.confirmed;return(
+              <div key={b.id} className="cd cdh fu" style={{padding:17,animationDelay:`${i*55}ms`}} onClick={()=>nav(`/chat/${b.id}`)}>
+                <div style={{display:'flex',gap:13,alignItems:'flex-start'}}>
+                  <div className="av" style={{width:50,height:50,fontSize:19,background:b.cl}}>{b.av}</div>
+                  <div style={{flex:1}}>
+                    <div style={{display:'flex',justifyContent:'space-between',gap:7,marginBottom:3}}>
+                      <div style={{fontWeight:800,fontSize:14}}>{ar?b.wNameAr:b.wName}</div>
+                      <span style={{fontSize:11,fontWeight:700,padding:'3px 9px',borderRadius:20,background:s.b,color:s.c,border:`1px solid ${s.c}33`,flexShrink:0}}>{s.i} {t.st[b.status]}</span>
+                    </div>
+                    <div style={{color:'var(--muted)',fontSize:12,marginBottom:7}}>{ar?b.profAr:b.prof}</div>
+                    <div style={{display:'flex',gap:10,flexWrap:'wrap',fontSize:12}}>
+                      <span>💰 <strong style={{color:'var(--gold)'}}>{b.amount} {t.egp}</strong></span>
+                      <span style={{color:'var(--muted)'}}>#{b.id}</span>
+                      <span style={{color:'var(--muted)'}}>{new Date(b.createdAt).toLocaleDateString(ar?'ar-EG':'en-US')}</span>
+                    </div>
+                  </div>
+                </div>
+                <div style={{marginTop:13,paddingTop:13,borderTop:'1px solid var(--bg5)',display:'flex',gap:7}}>
+                  <button className="btn bg bsm" onClick={e=>{e.stopPropagation();nav(`/chat/${b.id}`);}}>{t.cht}</button>
+                  <button className="btn bgh bsm" onClick={e=>{e.stopPropagation();nav(`/track/${b.id}`);}}>📍 {t.trk}</button>
+                </div>
+              </div>
+            );})}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ── CHAT ── */
+function Chat({bid}){
+  const {t,ar,user,bks,msgs,sendMsg}=useApp();
+  const [text,setText]=useState('');
+  const [send,setSend]=useState(false);
+  const [tick,setTick]=useState(0);
+  const bottom=useRef(null);
+  if(!user){nav('/auth');return null;}
+  const bk=bks.find(b=>b.id===bid);
+  if(!bk){nav('/bookings');return null;}
+  const ms=msgs[bid]||[];
+  useEffect(()=>{bottom.current?.scrollIntoView({behavior:'smooth'});},[ms.length,tick]);
+  const doSend=async()=>{
+    if(!text.trim()||send)return;
+    const txt=text.trim();setText('');setSend(true);
+    sendMsg(bid,txt);setSend(false);
+    setTimeout(()=>setTick(n=>n+1),2200);
+  };
+  const curMsgs=msgs[bid]||[];
+  return(
+    <div style={{display:'flex',flexDirection:'column',height:'100vh',background:'var(--bg)'}}>
+      <div style={{background:'var(--bg2)',borderBottom:'1px solid rgba(245,166,35,.12)',padding:'11px 14px',display:'flex',alignItems:'center',gap:11,flexShrink:0}}>
+        <button onClick={()=>nav('/bookings')} style={{background:'none',border:'none',color:'var(--muted)',cursor:'pointer',fontSize:17,fontFamily:'inherit',padding:'3px 7px',fontWeight:700}}>←</button>
+        <div className="av" style={{width:38,height:38,fontSize:15,background:bk.cl}}>{bk.av}</div>
+        <div>
+          <div style={{fontWeight:700,fontSize:14}}>{ar?bk.wNameAr:bk.wName}</div>
+          <div style={{fontSize:11,color:'var(--muted)'}}>{ar?bk.profAr:bk.prof}</div>
+        </div>
+        <span className="badge bgd" style={{margin:'0 auto'}}>#{bk.id}</span>
+        <button className="btn bgh bsm" onClick={()=>nav(`/track/${bk.id}`)}>📍</button>
+      </div>
+      <div style={{flex:1,overflowY:'auto',padding:13,display:'flex',flexDirection:'column',gap:9}}>
+        {curMsgs.map((m,i)=>{
+          const isU=m.from==='user';const isSys=m.from==='system';
+          if(isSys)return<div key={i} style={{textAlign:'center'}}><span style={{fontSize:12,color:'var(--muted)',background:'var(--bg3)',padding:'5px 13px',borderRadius:20,display:'inline-block'}}>{m.text}</span></div>;
+          return(
+            <div key={i} style={{display:'flex',justifyContent:isU?(ar?'flex-start':'flex-end'):(ar?'flex-end':'flex-start'),animation:'fadeUp .2s ease'}}>
+              <div style={{maxWidth:'75%',padding:'9px 13px',borderRadius:isU?'4px 15px 15px 15px':'15px 4px 15px 15px',background:isU?'var(--bg4)':'linear-gradient(135deg,var(--gold),var(--gold2))',color:isU?'var(--text)':'#080810',fontSize:14,lineHeight:1.55,border:isU?'1px solid var(--bg5)':'none',boxShadow:isU?'none':'0 4px 14px var(--glow)'}}>
+                {m.text}
+                <div style={{fontSize:10,marginTop:3,opacity:.5,textAlign:ar?'left':'right'}}>{new Date(m.time).toLocaleTimeString(ar?'ar-EG':'en-US',{hour:'2-digit',minute:'2-digit'})}</div>
+              </div>
+            </div>
+          );
+        })}
+        <div ref={bottom}/>
+      </div>
+      <div style={{background:'var(--bg2)',borderTop:'1px solid rgba(245,166,35,.12)',padding:'9px 13px',display:'flex',gap:9,alignItems:'flex-end',flexShrink:0}}>
+        <textarea className="inp" rows={1} placeholder={t.msgP} value={text} onChange={e=>setText(e.target.value)} onKeyDown={e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();doSend();}}} style={{resize:'none',flex:1,maxHeight:100,overflowY:'auto',paddingTop:10,minHeight:42}}/>
+        <button onClick={doSend} disabled={!text.trim()||send} style={{width:42,height:42,borderRadius:11,border:'none',cursor:'pointer',flexShrink:0,fontSize:17,background:text.trim()?'linear-gradient(135deg,var(--gold),var(--gold2))':'var(--bg4)',boxShadow:text.trim()?'0 4px 13px var(--glow)':'none',transition:'all var(--t)'}}>📤</button>
+      </div>
+    </div>
+  );
+}
+
+/* ── TRACK ── */
+function Track({bid}){
+  const {t,ar,user,bks}=useApp();
+  if(!user){nav('/auth');return null;}
+  const bk=bks.find(b=>b.id===bid);
+  if(!bk){nav('/bookings');return null;}
+  const doneCount={confirmed:1,on_way:2,arrived:3,completed:4}[bk.status]||1;
+  return(
+    <div className="fu" style={{paddingTop:68,paddingBottom:78}}>
+      <div style={{background:'var(--bg2)',borderBottom:'1px solid rgba(245,166,35,.12)',padding:'26px 16px'}}>
+        <div className="sw">
+          <button onClick={()=>nav('/bookings')} style={{background:'none',border:'none',color:'var(--muted)',cursor:'pointer',fontSize:13,marginBottom:14,fontFamily:'inherit',display:'flex',alignItems:'center',gap:5,fontWeight:600}}>{t.back}</button>
+          <h1 style={{fontSize:21,fontWeight:900}}>📍 {t.trkT} #{bk.id}</h1>
+          <p style={{color:'var(--muted)',fontSize:13,marginTop:3}}>{ar?bk.wNameAr:bk.wName}</p>
+        </div>
+      </div>
+      <div className="sw" style={{paddingTop:22}}>
+        <div className="cd" style={{padding:22,marginBottom:16}}>
+          <h2 style={{fontSize:15,fontWeight:800,marginBottom:14}}>{t.trkS}</h2>
+          <div style={{background:'var(--bg4)',borderRadius:9,height:6,marginBottom:22,overflow:'hidden'}}>
+            <div style={{height:'100%',width:`${(doneCount/4)*100}%`,background:'linear-gradient(90deg,var(--gold),var(--gold2))',borderRadius:9,transition:'width 1.3s ease'}}/>
+          </div>
+          <div style={{position:'relative'}}>
+            <div style={{position:'absolute',[ar?'right':'left']:17,top:19,width:2,height:'calc(100% - 38px)',background:'var(--bg5)'}}/>
+            <div style={{position:'absolute',[ar?'right':'left']:17,top:19,width:2,height:`${((doneCount-0.5)/4)*100}%`,background:'linear-gradient(180deg,var(--gold),var(--gold2))',transition:'height 1.3s ease'}}/>
+            {t.steps.map((step,i)=>{const done=i<doneCount;return(
+              <div key={i} style={{display:'flex',gap:13,alignItems:'flex-start',paddingBottom:i<3?22:0,position:'relative',zIndex:1}}>
+                <div style={{width:36,height:36,borderRadius:'50%',flexShrink:0,display:'flex',alignItems:'center',justifyContent:'center',background:done?'linear-gradient(135deg,var(--gold),var(--gold2))':'var(--bg4)',border:done?'2px solid var(--gold)':'2px solid var(--bg5)',fontSize:14,transition:'all .6s',boxShadow:done?'0 4px 14px var(--glow)':'none'}}>
+                  {done?'✓':'○'}
+                </div>
+                <div style={{paddingTop:6}}>
+                  <div style={{fontWeight:700,fontSize:13,color:done?'var(--text)':'var(--muted)'}}>{step}</div>
+                  {done&&<div style={{fontSize:11,color:'var(--gold)',marginTop:2}}>{t.dn}</div>}
+                </div>
+              </div>
+            );})}
+          </div>
+        </div>
+        <div className="cd" style={{height:160,display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'column',gap:9,marginBottom:16,overflow:'hidden',position:'relative'}}>
+          <div style={{position:'absolute',width:200,height:200,background:'radial-gradient(circle,rgba(245,166,35,.07),transparent)',borderRadius:'50%',animation:'pulse 2.5s infinite'}}/>
+          <div style={{fontSize:38,animation:'pulse 2s infinite'}}>🗺️</div>
+          <div style={{color:'var(--muted)',fontSize:13}}>{t.mapS}</div>
+        </div>
+        <div className="cd" style={{padding:18,marginBottom:16}}>
+          <h2 style={{fontSize:14,fontWeight:800,marginBottom:13}}>{t.bkDet}</h2>
+          {[[t.bkN,`#${bk.id}`],[t.wrk,ar?bk.wNameAr:bk.wName],[t.svc,ar?bk.profAr:bk.prof],[t.tot,`${bk.amount} ${t.egp}`],[t.pay,bk.pay],[t.loc,bk.location]].map(([l,v])=>(
+            <div key={l} style={{display:'flex',justifyContent:'space-between',marginBottom:9}}>
+              <span style={{color:'var(--muted)',fontSize:13}}>{l}</span><span style={{fontWeight:700,fontSize:13}}>{v}</span>
+            </div>
+          ))}
+        </div>
+        <button className="btn bg bfw" style={{height:48,fontSize:14}} onClick={()=>nav(`/chat/${bk.id}`)}>💬 {t.cntW}</button>
+      </div>
+    </div>
+  );
+}
+
+/* ── PROFILE ── */
+function Profile(){
+  const {t,ar,user,updUser,logout}=useApp();
+  const [editing,setEditing]=useState(false);
+  const [name,setName]=useState(user?.name||'');
+  const [phone,setPhone]=useState(user?.phone||'');
+  const [location,setLocation]=useState(user?.location||'القاهرة');
+  const [saving,setSaving]=useState(false);
+  const [msg,setMsg]=useState('');
+  if(!user){nav('/auth');return null;}
+
+  const save=async()=>{
+    setSaving(true);await new Promise(r=>setTimeout(r,500));
+    updUser({name,phone,location});setMsg(t.saved);setEditing(false);setSaving(false);
+    setTimeout(()=>setMsg(''),3000);
+  };
+
+  return(
+    <div className="fu" style={{paddingTop:68,paddingBottom:78}}>
+      <div style={{background:'var(--bg2)',borderBottom:'1px solid rgba(245,166,35,.12)',padding:'34px 16px',textAlign:'center'}}>
+        <div style={{width:76,height:76,borderRadius:'50%',background:user.color,display:'flex',alignItems:'center',justifyContent:'center',fontSize:29,fontWeight:900,color:'#fff',margin:'0 auto 13px',border:'3px solid rgba(245,166,35,.4)',animation:'glow 3s ease-in-out infinite'}}>{user.avatar}</div>
+        <h1 style={{fontSize:21,fontWeight:900,marginBottom:3}}>{user.name}</h1>
+        <p style={{color:'var(--muted)',fontSize:13,marginBottom:11}}>{user.email}</p>
+        <span className="badge bgd">📍 {user.location}</span>
+      </div>
+      <div style={{maxWidth:600,margin:'0 auto',padding:'22px 14px'}}>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:11,marginBottom:20}}>
+          {[{v:user.bookings,l:t.bks,i:'📋'},{v:user.completed,l:t.dn,i:'✅'},{v:user.rating,l:t.rat,i:'⭐'}].map(s=>(
+            <div key={s.l} className="cd" style={{padding:'14px 7px',textAlign:'center'}}>
+              <div style={{fontSize:18,marginBottom:3}}>{s.i}</div>
+              <div style={{fontSize:18,fontWeight:900,color:'var(--gold)'}}>{s.v}</div>
+              <div style={{fontSize:11,color:'var(--muted)'}}>{s.l}</div>
+            </div>
+          ))}
+        </div>
+        <div className="cd" style={{padding:20,marginBottom:13}}>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:16}}>
+            <h2 style={{fontSize:15,fontWeight:800}}>{t.pInfo}</h2>
+            <button onClick={()=>editing?save():setEditing(true)} className={editing?'btn bg bsm':'btn bgh bsm'} disabled={saving}>
+              {saving?'⏳':editing?t.save:t.edit}
+            </button>
+          </div>
+          <div style={{display:'flex',flexDirection:'column',gap:13}}>
+            {[[t.fnm,name,setName,'text'],[t.phn,phone,setPhone,'tel']].map(([l,v,fn,tp])=>(
+              <div key={l}><label>{l}</label>
+                {editing?<input className="inp" type={tp} value={v} onChange={e=>fn(e.target.value)}/>:
+                  <div style={{padding:'11px 14px',background:'var(--bg4)',borderRadius:10,fontSize:14}}>{v||'—'}</div>}
+              </div>
+            ))}
+            <div><label>📍 {ar?'المحافظة':'Governorate'}</label>
+              {editing?<select className="inp" value={location} onChange={e=>setLocation(e.target.value)} style={{cursor:'pointer'}}>
+                {EG_GOV.map(g=><option key={g.ar} value={ar?g.ar:g.en}>{ar?g.ar:g.en}</option>)}
+              </select>:<div style={{padding:'11px 14px',background:'var(--bg4)',borderRadius:10,fontSize:14}}>{location||user.location}</div>}
+            </div>
+            <div><label>{t.eml}</label><div style={{padding:'11px 14px',background:'var(--bg4)',borderRadius:10,fontSize:14,color:'var(--muted)'}}>{user.email}</div></div>
+          </div>
+          {msg&&<div style={{marginTop:11,padding:'9px 13px',borderRadius:9,background:'rgba(34,197,94,.1)',border:'1px solid rgba(34,197,94,.3)',color:'var(--green)',fontSize:13,fontWeight:600}}>{msg}</div>}
+        </div>
+        <div className="cd" style={{padding:'0 17px',marginBottom:13}}>
+          {[{i:'📋',l:t.myBks,a:()=>nav('/bookings')},{i:'🔔',l:ar?'الإشعارات':'Notifications',a:()=>{}},{i:'🔒',l:ar?'الأمان':'Security',a:()=>{}},{i:'❓',l:ar?'المساعدة':'Help',a:()=>{}}].map((x,idx,arr)=>(
+            <div key={x.l} onClick={x.a} style={{display:'flex',alignItems:'center',gap:12,padding:'13px 0',cursor:'pointer',borderBottom:idx<arr.length-1?'1px solid var(--bg5)':'none',color:'var(--text)',transition:'color var(--t)'}}>
+              <span style={{fontSize:19}}>{x.i}</span>
+              <span style={{flex:1,fontSize:13,fontWeight:600}}>{x.l}</span>
+              <span style={{color:'var(--muted2)',fontSize:17}}>›</span>
+            </div>
+          ))}
+        </div>
+        <button className="btn bdd bfw" style={{height:48,fontSize:14}} onClick={()=>{logout();nav('/auth');}}>
+          {t.lgout}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ── APP ── */
+function Router(){
+  const route=useRoute();
+  const {user}=useApp();
+  const render=()=>{
+    if(route==='/'||route==='')return<Home/>;
+    if(route==='/auth')return<Auth/>;
+    if(route.startsWith('/worker/'))return<WorkerDetail id={route.split('/worker/')[1]}/>;
+    if(route==='/bookings')return<Bookings/>;
+    if(route.startsWith('/chat/'))return<Chat bid={route.split('/chat/')[1]}/>;
+    if(route.startsWith('/track/'))return<Track bid={route.split('/track/')[1]}/>;
+    if(route==='/profile')return<Profile/>;
+    return<Home/>;
+  };
+  return<><Navbar route={route}/>{render()}</>;
+}
+function App(){return<AppProvider><Router/></AppProvider>;}
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('/sw.js').catch(()=>{});
+  });
+}
+</script>
+</body>
+</html>
